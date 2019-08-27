@@ -9,11 +9,14 @@
 import Foundation
 import UIKit
 
+typealias CustomVariables = [(String, String)]
+
 @objc public protocol LiveChatDelegate : NSObjectProtocol {
     @objc optional func received(message: LiveChatMessage)
     @objc optional func handle(URL: URL)
     @objc optional func chatPresented()
     @objc optional func chatDismissed()
+    @objc optional func supportedInterfaceOrientations() -> UIInterfaceOrientationMask
 }
 
 public class LiveChat : NSObject {
@@ -37,7 +40,6 @@ public class LiveChat : NSObject {
             updateConfiguration()
         }
     }
-    @objc public static var allCustomVariables : Dictionary<String, String>?
     
     @objc public static weak var delegate : LiveChatDelegate? {
         didSet {
@@ -87,7 +89,7 @@ private class Manager : NSObject, LiveChatOverlayViewControllerDelegate, WebView
             overlayViewController.configuration = configuration
         }
     }
-    var customVariables : Dictionary<String, String>? {
+    var customVariables : CustomVariables? {
         didSet {
             overlayViewController.customVariables = customVariables
         }
@@ -122,15 +124,16 @@ private class Manager : NSObject, LiveChatOverlayViewControllerDelegate, WebView
     
     // MARK: Public methods
     
-    func setVariable(withKey key: String, value: String) {
-        var mutableCustomVariables = customVariables
+    func setVariable(withKey key: String, value: String)
+    {
+        let pair = (key, value)
+        var mutableCustomVariables = customVariables ?? []
         
-        if mutableCustomVariables == nil {
-            mutableCustomVariables = [:]
-        }
-        
-        mutableCustomVariables?[key] = value
-        
+        if let index = mutableCustomVariables.firstIndex(where: { $0.0 == key }) {
+            mutableCustomVariables[index] = pair
+        } else {
+            mutableCustomVariables.append(pair)
+        }        
         self.customVariables = mutableCustomVariables
     }
     
@@ -181,8 +184,23 @@ private class Manager : NSObject, LiveChatOverlayViewControllerDelegate, WebView
         window.isHidden = true
     }
     
+    @objc func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return delegate?.supportedInterfaceOrientations?() ?? .all
+    }
+    
     @objc func handle(URL: URL) {
-        delegate?.handle?(URL: URL)
+        if let delegate = self.delegate {            
+            if delegate.responds(to: #selector(LiveChatDelegate.handle(URL:))) {
+                delegate.handle?(URL: URL)
+                return
+            }
+        }
+        
+        if #available(iOS 10, *) {
+            UIApplication.shared.open(URL, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(URL)
+        }
     }
     
     // MARK: WebViewBridgeDelegate

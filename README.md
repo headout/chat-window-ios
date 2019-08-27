@@ -1,6 +1,6 @@
-# iOS chat widget for LiveChat and chat.io
+# iOS chat widget for LiveChat
 
-iOS chat widget for LiveChat and chat.io allows you to integrate [LiveChat](https://livechatinc.com) or [chat.io](https://chat.io) into your iOS app.
+iOS chat widget for LiveChat allows you to integrate [LiveChat](https://livechatinc.com) with your iOS app.
 
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](#carthage)
 [![Version](https://img.shields.io/cocoapods/v/LiveChat.svg?style=flat)](http://cocoapods.org/pods/LiveChat)
@@ -19,7 +19,7 @@ iOS chat widget for LiveChat and chat.io allows you to integrate [LiveChat](http
 If you use [Carthage](https://github.com/Carthage/Carthage) to manage your dependencies, simply add 'livechat/chat-window-ios' to your `Cartfile`.
 
 ```
-github "livechat/chat-window-ios" ~> 2.0.11
+github "livechat/chat-window-ios" ~> 2.0.17
 ```
 
 Make sure you have added `LiveChat.framework` to the "_Linked Frameworks and Libraries_" section of your target, and have include it in your Carthage framework copying build phase.
@@ -29,7 +29,7 @@ Make sure you have added `LiveChat.framework` to the "_Linked Frameworks and Lib
 If you use [CocoaPods](http://cocoapods.org) to manage your dependencies, simply add LiveChat to your `Podfile`.
 
 ```bash
-pod 'LiveChat', '~> 2.0.11'
+pod 'LiveChat', '~> 2.0.17'
 ```
 
 ### Manual Installation
@@ -126,7 +126,7 @@ Sample apps for both Swift and Objective-C can be found in the `Examples` folder
 
 ## Getting help
 
-If you have any questions or want to provide feedback, [chat with us!](https://secure-lc.livechatinc.com/licence/8413431/open_chat.cgi)
+If you have any questions or want to provide feedback, [chat with us!](https://secure-lc.livechatinc.com/licence/1520/v2/open_chat.cgi?groups=51)
 
 ## License
 
